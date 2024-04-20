@@ -15,10 +15,17 @@ fn main() {
         io::stdin()
             .read_line(&mut guess)
             .expect("Failed to read line");
-        println!("You guessed: {guess}");
-
+        
         //convert string input to u32 type
-        let guess: u32 = guess.trim().parse().expect("please write a number");
+        let guess: u32 = match guess.trim().parse() {
+            //.expect("please write a number");
+            Ok(num) => num, // or Result::Ok(num) => num,
+            Err(_) => { // or Result::Err(_) => {
+                println!("Please input a number!");
+                continue;
+            },
+        };
+        println!("You guessed: {guess}");
 
         //matching guess status
         match guess.cmp(&secret_number) {
